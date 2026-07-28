@@ -907,7 +907,7 @@ function getSamplingPoints(rect) {
 
 function findCoveredElements(candidate) {
 
-    const covered = [];
+    const covered = new Map();
 
     const visited = new Set();
 
