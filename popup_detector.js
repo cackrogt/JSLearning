@@ -11,7 +11,7 @@
  *
  *********************************************************************/
 
-const PopupDetector = (() => {
+ window.PopupDetector = (() => {
 
     ////////////////////////////////////////////////////////////////////
     // Configuration
@@ -907,7 +907,7 @@ function getSamplingPoints(rect) {
 
 function findCoveredElements(candidate) {
 
-    const covered = new Map();
+    const covered = [];
 
     const visited = new Set();
 
@@ -1054,7 +1054,7 @@ function isTopLevelCandidate(candidate) {
             continue;
 
         if (
-            covered.has(candidate)
+            covered.includes(candidate)
         ) {
 
             return false;
@@ -1082,21 +1082,11 @@ function dumpOverlapGraph() {
 
         console.table(
 
-            [...children.entries()].map(
-
-                ([descriptor, hits]) => ({
-
-                    tag: descriptor.tagName,
-
-                    id: descriptor.id,
-
-                    class: descriptor.className,
-
-                    hits
-
-                })
-
-            )
+            children.map(c => ({
+                tag: c.tagName,
+                id: c.id,
+                class: c.className
+            }))
 
         );
 
