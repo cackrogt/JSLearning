@@ -234,6 +234,8 @@
     ////////////////////////////////////////////////////////////////////
 
     function run(userConfig = {}) {
+        // comment this out later
+        return {}
 
         State.config = {
 

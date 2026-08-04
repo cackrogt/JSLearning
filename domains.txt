@@ -1,3 +1,7 @@
+   7 moneycontrol.com
+   6 economictimes.indiatimes.com
+   2 financialexpress.com
+   4 m.economictimes.com
    1 jw.org
    80 yahoo.com
    75 msn.com
@@ -220,7 +224,6 @@
     7 mydramalist.com
     7 windowscentral.com
     7 base64decode.org
-    7 moneycontrol.com
     7 weather.com
     7 newagebd.net
     7 cnbctv18.com
@@ -382,7 +385,6 @@
     6 wral.com
     6 gamingdeputy.com
     6 india.com
-    6 economictimes.indiatimes.com
     6 gsmarena.com
     6 topsmerch.com
     6 motor1.com
@@ -868,7 +870,6 @@
     4 local10.com
     4 wapt.com
     4 playbuzz.com
-    4 m.economictimes.com
     4 niagarafallsreview.ca
     4 stcatharinesstandard.ca
     4 therecord.com
@@ -3349,7 +3350,6 @@
     2 pinterest.com
     2 useragents.me
     2 biznews.com
-    2 financialexpress.com
     2 distrowatch.com
     2 vortexscans.org
     2 1280wnam.com

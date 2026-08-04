@@ -11,6 +11,12 @@ detector_script = Path(
     config.DETECTOR_FILE
 ).read_text(encoding="utf-8")
 
+trigger_script = Path(
+    "trigger_mutation.js"
+).read_text(
+    encoding="utf-8"
+)
+
 def save_json(site, result):
 
     name = (
@@ -76,6 +82,30 @@ def main():
                     config.WAIT_AFTER_NETWORK_IDLE_MS
                 )
 
+                page.evaluate(trigger_script)
+
+                page.evaluate("""
+
+                () => {
+
+                    window.MutationExperiment.start();
+
+                }
+
+                """)
+                page.wait_for_timeout(20000)
+
+                stats = page.evaluate("""
+
+                () => {
+
+                    return window.MutationExperiment.stop();
+
+                }
+
+                """)
+                print(stats)
+
                 name = (
                     site
                     .replace("https://", "")
@@ -100,21 +130,21 @@ def main():
                 page.evaluate(detector_script)
                 result = page.evaluate("""
 
-        () => {
+            () => {
 
-            return PopupDetector.run({
+                return PopupDetector.run({
 
-                hideStrategy: "display",
+                    hideStrategy: "display",
 
-                debug: false,
+                    debug: false,
 
-                verbose: false
+                    verbose: false
 
-            });
+                });
 
-        }
+            }
 
-        """)
+            """)
                 save_json(
                     site,
                     result
