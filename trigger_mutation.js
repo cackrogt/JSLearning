@@ -6,6 +6,56 @@ window.MutationExperiment = (() => {
 
     let stats = {};
 
+    function isLocallyOverlapping(element) {
+
+        const rect = element.getBoundingClientRect();
+
+        const points = [
+
+            [rect.left + rect.width / 2,
+            rect.top + rect.height / 2],
+
+            [rect.left + rect.width / 2,
+            rect.top + 5],
+
+            [rect.left + rect.width / 2,
+            rect.bottom - 5],
+
+            [rect.left + 5,
+            rect.top + rect.height / 2],
+
+            [rect.right - 5,
+            rect.top + rect.height / 2]
+
+        ];
+
+        let hits = 0;
+
+        for (const [x, y] of points) {
+
+            const stack = document.elementsFromPoint(x, y);
+
+            if (stack.length < 2)
+                continue;
+
+            if (stack[0] !== element)
+                continue;
+
+            if (
+                stack[1] === element ||
+                element.contains(stack[1]) ||
+                stack[1].contains(element)
+            ) {
+                continue;
+            }
+
+            hits++;
+
+        }
+
+        return hits;
+    }
+
     function reset() {
 
         stats = {
@@ -32,7 +82,9 @@ window.MutationExperiment = (() => {
             
             smallElements: 0,
 
-            interactiveElements: 0,
+            interactiveElements: new Set(),
+
+            overlapCandidates: 0,
 
         };
 
@@ -127,18 +179,33 @@ window.MutationExperiment = (() => {
                     "button,a,input,select,textarea,[role='button']"
                 ) !== null;
 
+            if (interactive) {
+                stats.interactiveElements.add(element);
+            }
+
             const rect = element.getBoundingClientRect();
 
-            if (
+            const overlapHits =
+                isLocallyOverlapping(element);
+
+            const isLarge =
                 rect.width >= minWidth ||
-                rect.height >= minHeight
-            ) {
+                rect.height >= minHeight;
+
+            if (isLarge) {
 
                 stats.largeElements++;
+
                 if (interactive) {
 
                     stats.largeInteractiveElements =
                         (stats.largeInteractiveElements || 0) + 1;
+
+                    if (overlapHits >= 3) {
+
+                        stats.overlapCandidates++;
+
+                    }
 
                 }
 
@@ -151,9 +218,12 @@ window.MutationExperiment = (() => {
         }
 
         return  {
-        ...stats,
+            ...stats,
 
-        uniqueElements: stats.mutatedElements.size
+            uniqueElements: stats.mutatedElements.size,
+
+            interactiveElements:
+                stats.interactiveElements.size
         };
 
     }

@@ -27,7 +27,7 @@ def load_sites(limit=20):
 
     return sites
 
-SITES = load_sites(5)
+SITES = load_sites(3)
 
-for site in load_sites(50):
-    print(site)
+# for site in load_sites(50):
+#     print(site)
